@@ -125,7 +125,7 @@ tabItem(tabName = "first",
                  tags$head(
                    tags$style(HTML('#plot{color:white}'))
                  ),
-                 actionButton("plot", h5(tags$strong("Click to plot new dataset"))), 
+                 actionButton("plot", h5(tags$strong("Plot new dataset"))), 
                  bsPopover("plot", "", "The scatterplot on the left shows the relationship between the best picked X and Y.  The box plot on the right summarizes the distribution of the residuals when you predict Y from the best picked X.", 
                            place="right",options = list(container = "body")),
                  br(),
@@ -136,7 +136,7 @@ tabItem(tabName = "first",
                  ),
                  conditionalPanel("input.plot != 0",
             
-                 actionButton("validate", h5(tags$strong("Click here later to Validate"))))),
+                 actionButton("validate", h5(tags$strong("Click to Validate"))))),
           bsPopover("validate", "", "Click to show a scatterplot of Y versus X for the new data used to validate the relationship and a box plot of the distribution of residuals from a validation experiment with new observations of X and Y.", 
                     place="right", options = list(container = "body")),
           
@@ -164,7 +164,7 @@ tabItem(tabName = "first",
                                   br(),
                                   br(),
                                   br(),
-                                  h4("Challenge:"),
+                                  h3(tags$strong("Challenge:")),
                                   
                                   
                                   h4("How does the overfitting effect depend on 

@@ -121,10 +121,9 @@ shinyServer(function(input, output,session) {
     plot(range(d1$x, d2$x), range(d1$y, d2$y), type = "n", xlab = "Residual",
          ylab = "Density", main="",font.lab=2)
     groups <- c("Best\nChosen X", "Validation\nData Set") 
-    
     #boxplot for the second time  
     boxplot(y2-mm$fitted.values, y1blue-mm2blue$fitted.values, 
-            names=groups, ylab="Residuals", ylim = c(-4, 4), font.lab = 2, border = c("black", "blue"), main="boxplot")
+            names=groups, ylab="Residuals", ylim = c(-4, 4), las=3, font.lab = 2, border = c("black", "blue"), main="Boxplot of Residuals")
     #lines(d2, col="black",lwd=2)
     #lines(d1, col="blue",lwd=2)
   })
