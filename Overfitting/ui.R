@@ -40,7 +40,10 @@ dashboardPage(#skin = "black",
                           
                           br(),
                           
-                          div(style = "text-align: center",bsButton("goover", "Go to the overview", icon("bolt"), size = "large"))
+                          tags$head(
+                            tags$style(HTML('#goover{color:white}'))
+                          ),
+                          div(style = "text-align: center", bsButton("goover", "Go to the overview", icon("bolt"), size = "large"))
                   ),
                   tabItem(tabName = "over",
                           tags$a(href = 'http://stat.psu.edu/',tags$img(src='PS-HOR-RGB-2C.png', align = "left", width = 180)),
@@ -64,6 +67,9 @@ dashboardPage(#skin = "black",
                                       tags$strong("plot button"),
                                       "again.")),
                           
+                          tags$head(
+                            tags$style(HTML('#explore{color:white}'))
+                          ),
                           div(style = "text-align: center",bsButton("explore", "Explore", icon("bolt"), size = "large")),
                           br(),
                           h3(tags$b("Acknowledgements:")),
@@ -116,12 +122,20 @@ tabItem(tabName = "first",
                  bsPopover("k", "", "Move the slider to change the number of explanatory variables you are choosing from", 
                            place="right", options = list(container = "body")),
                  
-                 actionButton("plot", h5(tags$strong("Click to plot a new dataset"))), 
+                 tags$head(
+                   tags$style(HTML('#plot{color:white}'))
+                 ),
+                 actionButton("plot", h5(tags$strong("Click to plot new dataset"))), 
                  bsPopover("plot", "", "The scatterplot on the left shows the relationship between the best picked X and Y.  The box plot on the right summarizes the distribution of the residuals when you predict Y from the best picked X.", 
                            place="right",options = list(container = "body")),
                  br(),
                  br(),
+                 
+                 tags$head(
+                   tags$style(HTML('#validate{color:white}'))
+                 ),
                  conditionalPanel("input.plot != 0",
+            
                  actionButton("validate", h5(tags$strong("Click here later to Validate"))))),
           bsPopover("validate", "", "Click to show a scatterplot of Y versus X for the new data used to validate the relationship and a box plot of the distribution of residuals from a validation experiment with new observations of X and Y.", 
                     place="right", options = list(container = "body")),
