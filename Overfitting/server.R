@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 
 shinyServer(function(input, output,session) {
   #Go to overview Button
@@ -10,13 +11,62 @@ shinyServer(function(input, output,session) {
     updateTabItems(session, "tabs", "first")
   })
   
+  #####info button 
+  observeEvent(input$info,{
+    sendSweetAlert(
+      session = session,
+      title = "Instructions:",
+      text = "Click on the plot new dataset button and 
+      validate button to explor overfitting.",
+      type = "info"
+    )
+  })
+  
+  ###initialzed  point#######
+  output$plott <- renderPlot({
+    n = input$n
+    k = input$k
+    mydata <- plotdata()
+    R2 <- unlist(mydata[1])
+    y2 <- unlist(mydata[2])
+    xmat <- array(unlist(mydata[3]), dim = c(n, k))
+    kk = which.max(abs(R2)) #best
+    
+    mm <- lm(y2~xmat[ , kk]) # Best Chosen X
+    
+    d2 <- density(y2-mm$fitted.values) # Pick the best X
+    plot(range(d2$x), range(d2$y), type = "n", xlab = "Residual",
+         ylab = "Density",font.lab=2)
+    
+    #boxplot for the first time 
+    boxplot(y2-mm$fitted.values, xlab="Best Chosen X", ylim = c(-4, 4), ylab="Residuals",font.lab=2, main="Boxplot of Residuals")
+    #lines(d2, col="black",lwd=2)
+  })
+  
+  output$scatter <- renderPlot({
+    n = input$n
+    k = input$k
+    mydata <- plotdata()
+    R2 <- unlist(mydata[1])
+    y2 <- unlist(mydata[2])
+    xmat <- array(unlist(mydata[3]),dim = c(n, k))
+    kk = which.max(abs(R2))
+    mm <- lm(y2~xmat[ , kk]) # Best Chosen X
+    #first plot
+    plot(xmat[,kk], y2, xlab="Best Chosen X", ylab="Y",font.lab=2, cex=1.5,
+         main="Scatterplot for Best X")
+    abline(mm,col = "red")
+  })
+  
+  ########end initialzed point###
+  
   plotdata<-reactive({
     n = input$n
     p = input$p
     k = input$k
     xmat = matrix(0, n, k)
     
-    if (input$plot > 0) {
+    if (input$plot >= 0) {
       y1 <- rnorm(n, 0, 1)
       if (p > 0) {
         x1 = rnorm(n, y1, 1/abs(p))
@@ -80,7 +130,7 @@ shinyServer(function(input, output,session) {
     y
   })
   
-  plot2 <- renderPlot( {
+  plot2 <- renderPlot({
     n = input$n
     k = input$k
     mydata <- plotdata()
@@ -99,7 +149,7 @@ shinyServer(function(input, output,session) {
     #boxplot for the first time 
     boxplot(y2-mm$fitted.values, xlab=group, ylim = c(-4, 4), ylab="Residuals",font.lab=2, main="Boxplot of Residuals")
     #lines(d2, col="black",lwd=2)
-  })
+  }, ignoreInit = TRUE)
   
   plot1 <- renderPlot({
     n = input$n
@@ -126,7 +176,7 @@ shinyServer(function(input, output,session) {
             names=groups, ylab="Residuals", ylim = c(-4, 4), las=3, font.lab = 2, border = c("black", "blue"), main="Boxplot of Residuals")
     #lines(d2, col="black",lwd=2)
     #lines(d1, col="blue",lwd=2)
-  })
+  }, ignoreInit = TRUE)
   
   
   scatterplot <- renderPlot( {
@@ -141,9 +191,10 @@ shinyServer(function(input, output,session) {
     mm <- lm(y2~xmat[ , kk]) # Best Chosen X
     
     #first plot
-    plot(xmat[ , kk], y2, xlab="Best Chosen X", ylab="Y",font.lab=2, cex=1.5, main="Scatterplot for Best X")
+    plot(xmat[ , kk], y2, xlab="Best Chosen X", ylab="Y",font.lab=2, cex=1.5, 
+         main="Scatterplot for Best X")
     abline(mm,col = "red")
-  })
+  }, ignoreInit = TRUE)
   
   scatterplot2 <- renderPlot( {
     n = input$n
@@ -157,13 +208,12 @@ shinyServer(function(input, output,session) {
          xlab = "Validation set X", ylab = "Y", 
          col = "blue",font.lab = 2,cex = 1.5,  main="Scatterplot for New X ")
     abline(mm2blue, col = "red")
-  })
+  }, ignoreInit = TRUE)
   
-  observeEvent(input$plot, output$plott <- plot2)
-  observeEvent(input$plot, output$scatter <- scatterplot)
-  observeEvent(input$plot, output$choose <- value1)
-  observeEvent(input$plot, output$scatter2 <- renderPlot({NULL}))
-  
+  observeEvent(input$plot, {output$plott <- plot2})
+  observeEvent(input$plot, {output$scatter <- scatterplot})
+  observeEvent(input$plot, {output$choose <- value1})
+  observeEvent(input$plot, {output$scatter2 <- renderPlot({NULL})})
   
   observeEvent(input$validate, output$plott <- plot1)
   observeEvent(input$validate, output$choose <- value2)
@@ -205,7 +255,5 @@ shinyServer(function(input, output,session) {
     value22()},
     align = "c"
   )
-  
- 
   
 })
