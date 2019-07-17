@@ -20,7 +20,7 @@ dashboardPage(#skin = "black",
                   id = "tabs",
                   menuItem("Prerequisites", tabName = "pre",icon = icon("book")),
                   menuItem("Overview", tabName = "over", icon = icon("dashboard")),
-                  menuItem(" Explore", tabName = "first", icon = icon("wpexplorer"))
+                  menuItem("Explore", tabName = "first", icon = icon("wpexplorer"))
                 )),
               
               #Content within the tabs
