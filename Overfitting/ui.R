@@ -20,7 +20,7 @@ dashboardPage(#skin = "black",
                   id = "tabs",
                   menuItem("Prerequisites", tabName = "pre",icon = icon("book")),
                   menuItem("Overview", tabName = "over", icon = icon("dashboard")),
-                  menuItem("Exploration", tabName = "first", icon = icon("wpexplorer"))
+                  menuItem(" Explore", tabName = "first", icon = icon("wpexplorer"))
                 )),
               
               #Content within the tabs
@@ -30,7 +30,10 @@ dashboardPage(#skin = "black",
                     tags$link(rel = "stylesheet", type = "text/css", href = "Feature.css"),
                     tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {background: #ffb6c1}")),
                     tags$style(HTML(".js-irs-1 .irs-single, .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {background: #ffb6c1}")),
-                    tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #ffb6c1}"))
+                    tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {background: #ffb6c1}")),
+                    tags$style(HTML(".js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {border-color: #ffb6c1}")),
+                    tags$style(HTML(".js-irs-1 .irs-single, .js-irs-1 .irs-bar-edge, .js-irs-1 .irs-bar {border-color: #ffb6c1}")),
+                    tags$style(HTML(".js-irs-2 .irs-single, .js-irs-2 .irs-bar-edge, .js-irs-2 .irs-bar {border-color: #ffb6c1}"))
                   ),
                 
                 tabItems(
@@ -131,7 +134,8 @@ tabItem(tabName = "first",
                  tags$head(
                    tags$style(HTML('#plot{color:white}'))
                  ),
-                 actionButton("plot", h5(tags$strong("Plot new dataset")), class="circle grow"), 
+                 br(),
+                 actionButton("plot", tags$h5(strong("Plot new dataset")), class="circle grow", size="large"), 
                  bsPopover("plot", "", "The scatterplot on the left shows the relationship between the best picked X and Y.  The box plot on the right summarizes the distribution of the residuals when you predict Y from the best picked X.", 
                            place="right",options = list(container = "body")),
                  br(),
