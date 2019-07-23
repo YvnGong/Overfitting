@@ -183,11 +183,7 @@ tabItem(tabName = "first",
                                      the number of variables you are choosing from ?")
                                   
                                   ))
-           
-          
-          )
-          
-          
+            )
           
           )
         )
